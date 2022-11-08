@@ -2,7 +2,39 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+
+#define MAX 2
+
 using namespace std;
+
+// Implementação da estrutura de dados
+struct Node {
+    string word;
+    int* frequencies;
+    Node* previous;
+    Node* next;
+}
+
+struct List {
+    Node* first;
+    Node* last;
+}
+
+    // Funções
+
+List* createList() {
+    List* newList = new List;
+
+    newList->first = newList->last = nullptr;
+
+    return newList;
+}
+
+void addElement(List* list, string word) {
+    Node* element = new Node;
+
+    element->
+}
 
 int main(int argc, char* argv[]){
     string line;
