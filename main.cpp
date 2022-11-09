@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <regex>
 
 #define MAX 2
 
@@ -57,10 +58,20 @@ int main(int argc, char* argv[]){
         myFile.open(argv[i]);
         if(myFile.is_open()){
             while (getline(myFile,line)){
-                cout << line << endl;
-                //ss.
+                  cout << line << endl;
+
+                  //separa a frase em palavras
+                  regex delimiters { "(\\,|\\;|\\:|\\.|\\?|\\!|\\s)+" };
+                  sregex_token_iterator tokens_begin { line.begin(), line.end(), delimiters, -1 };
+                  auto tokens_end = sregex_token_iterator {};
+                  for (auto token_it = tokens_begin; token_it != tokens_end; token_it++)
+                        cout << "* [" << *token_it << "]\n";
+                
             } 
             myFile.close();
-        } else cout << "Entrada inválida!";
+        } else {
+            cout << "Entrada inválida!";
+            return -1;
+        } 
     }
 }
