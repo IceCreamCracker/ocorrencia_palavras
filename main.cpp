@@ -1,5 +1,5 @@
 #include <iostream>
-#include <string.h>
+#include <string>
 #include <fstream>
 #include <sstream>
 #include <regex>
@@ -30,11 +30,11 @@ List* createList() {
     return newList;
 }
 
-void addElement(List* list, char* word) {
+void addElement(List* list, string word) {
   Node* newElement = new Node;
 
   newElement->next = newElement->previous = nullptr;
-  newElement-> word = word;
+  newElement->word = word;
 
   if (list->first == nullptr) {
     list->first = newElement;
@@ -43,7 +43,7 @@ void addElement(List* list, char* word) {
     Node* current;
     for (
       current = list->first; 
-      current != nullptr && strcmp(current->word, word) < 0; 
+      current != nullptr && current->word.compare(word) < 0; 
       current = current->next
       ) {
       prev = current;
