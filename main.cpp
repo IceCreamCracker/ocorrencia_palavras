@@ -1,5 +1,5 @@
 #include <iostream>
-#include <string>
+#include <string.h>
 #include <fstream>
 #include <sstream>
 #include <regex>
@@ -18,7 +18,6 @@ struct Node {
 
 struct List {
     Node* first;
-    Node* last;
 };
 
     // Funções
@@ -26,15 +25,50 @@ struct List {
 List* createList() {
     List* newList = new List;
 
-    newList->first = newList->last = nullptr;
+    newList->first = nullptr;
 
     return newList;
 }
 
-void addElement(List* list, string word) {
-    Node* element = new Node;
+void addElement(List* list, char* word) {
+  Node* newElement = new Node;
 
-    //element->
+  newElement->next = newElement->previous = nullptr;
+  newElement-> word = word;
+
+  if (list->first == nullptr) {
+    list->first = newElement;
+  } else {
+    Node* prev = nullptr;
+    Node* current;
+    for (
+      current = list->first; 
+      current != nullptr && strcmp(current->word, word) < 0; 
+      current = current->next
+      ) {
+      prev = current;
+    }
+
+    newElement->previous = prev;
+    newElement->next = current;
+
+    if (current != nullptr) {
+      current->previous = newElement;
+    }
+
+    if (prev != nullptr) {
+      prev->next = newElement;
+    } else {
+      list->first = newElement;
+    }
+  }
+}
+
+void printList(List* list) {
+  for (Node* p = list->first; p != nullptr; p = p->next) {
+    cout << p->word << " ";
+  }
+  cout << endl;
 }
 
 string paraMaisBaixo (string str){ // to lower case
