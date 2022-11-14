@@ -43,6 +43,7 @@ void addElement(List* list, string word) {
 
   newElement->next = newElement->previous = nullptr;
   newElement->word = word;
+  newElement->frequencies = new int[2];
 
   if (list->first == nullptr) {
     list->first = newElement;
