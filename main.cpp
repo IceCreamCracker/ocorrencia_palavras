@@ -30,6 +30,14 @@ List* createList() {
     return newList;
 }
 
+/*
+Adição ordenada de elemento
+Complexidade: O(n), onde n é o tamanho da lista
+
+Uso
+Parâmetros: Lista (ponteiro) e palavra
+Retorno: vazio
+*/
 void addElement(List* list, string word) {
   Node* newElement = new Node;
 
@@ -64,12 +72,41 @@ void addElement(List* list, string word) {
   }
 }
 
+/* 
+Busca sequencial
+Complexidade: O(n)
+
+Uso
+Parâmetros: Lista (ponteiro) e palavra
+Retorno: Nó onde a palavra desejada foi localizada ou nullptr, caso não
+tenha sido encontrada
+*/
+Node* searchElement(List* list, string word) {
+  Node* current;
+  current = list->first;
+
+  while(current != nullptr && current->word != word) {
+    current = current->next;
+  }
+
+  return current;
+}
+
+/*
+Imprimir lista
+Complexidade: O(n)
+
+Uso
+Parâmetros: lista (ponteiro)
+Retorno: vazio
+*/
 void printList(List* list) {
   for (Node* p = list->first; p != nullptr; p = p->next) {
     cout << p->word << " ";
   }
   cout << endl;
 }
+// Fim da implementação da estrutura de dados
 
 string paraMaisBaixo (string str){ // to lower case
     unsigned int f;
