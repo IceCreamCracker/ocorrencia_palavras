@@ -33,17 +33,18 @@ List* createList() {
 /*
 Adição ordenada de elemento
 Complexidade: O(n), onde n é o tamanho da lista
-
 Uso
 Parâmetros: Lista (ponteiro) e palavra
 Retorno: vazio
 */
-void addElement(List* list, string word) {
+void addElement(List* list, string word, int numberText) {
   Node* newElement = new Node;
 
   newElement->next = newElement->previous = nullptr;
   newElement->word = word;
   newElement->frequencies = new int[2];
+  newElement->frequencies[0] = newElement->frequencies[1] = 0;
+  newElement->frequencies[numberText] = 1;
 
   if (list->first == nullptr) {
     list->first = newElement;
@@ -76,7 +77,6 @@ void addElement(List* list, string word) {
 /* 
 Busca sequencial
 Complexidade: O(n)
-
 Uso
 Parâmetros: Lista (ponteiro) e palavra
 Retorno: Nó onde a palavra desejada foi localizada ou nullptr, caso não
@@ -96,20 +96,18 @@ Node* searchElement(List* list, string word) {
 /*
 Imprimir lista
 Complexidade: O(n)
-
 Uso
 Parâmetros: lista (ponteiro)
 Retorno: vazio
 */
 void printList(List* list) {
   for (Node* p = list->first; p != nullptr; p = p->next) {
-    cout << p->word << " ";
+    cout << p->word << " " << p->frequencies[0] << " " << p->frequencies[1] << endl;
   }
-  cout << endl;
 }
 // Fim da implementação da estrutura de dados
 
-string paraMaisBaixo (string str){ // to lower case
+string toLowerCase (string str){ // to lower case
     unsigned int f;
     string resultado = "";
 
@@ -126,9 +124,11 @@ string paraMaisBaixo (string str){ // to lower case
 int main(int argc, char* argv[]){
     string line;
     ifstream myFile;
-    string word;//gata, você é um editor de texto? pq vc é meu word 
+    string word;//gata, você é um editor de texto? pq vc é meu word
+    List* list = createList();
 
     for (int i = 1; i < argc; i++){
+        int numberText = i - 1;
         myFile.open(argv[i]);
         if(myFile.is_open()){
             while (getline(myFile,line)){
@@ -137,8 +137,16 @@ int main(int argc, char* argv[]){
                   regex delimiters {"[\\,\\;\\:\\.\\?\\!\\s]+"};
                   sregex_token_iterator tokens_begin { line.begin(), line.end(), delimiters, -1 };
                   auto tokens_end = sregex_token_iterator {};
-                  for (auto token_it = tokens_begin; token_it != tokens_end; token_it++)
-                        cout << paraMaisBaixo(*token_it) << endl; // funcionando até aqui
+                  for (auto token_it = tokens_begin; token_it != tokens_end; token_it++) {
+                      //cout << toLowerCase(*token_it) << endl; // funcionando até aqui
+                      Node* element = searchElement(list, toLowerCase(*token_it));
+
+                      if (element) {
+                          element->frequencies[numberText]++;
+                      } else {
+                          addElement(list, toLowerCase(*token_it), numberText);
+                      }
+                  }    
             } 
             myFile.close();
         } else {
@@ -147,6 +155,7 @@ int main(int argc, char* argv[]){
         }
     }
 
+    printList(list);
 
     return 0;
 }
