@@ -37,13 +37,17 @@ Uso
 Parâmetros: Lista (ponteiro) e palavra
 Retorno: vazio
 */
-void addElement(List* list, string word, int numberText) {
+void addElement(List* list, string word, int numberText, int qtdTexts) {
   Node* newElement = new Node;
 
   newElement->next = newElement->previous = nullptr;
   newElement->word = word;
-  newElement->frequencies = new int[2];
-  newElement->frequencies[0] = newElement->frequencies[1] = 0;
+  newElement->frequencies = new int[qtdTexts];
+  
+  for (int i = 0; i < qtdTexts; i++) {
+    newElement->frequencies[i] = 0;
+  }
+
   newElement->frequencies[numberText] = 1;
 
   if (list->first == nullptr) {
@@ -100,9 +104,13 @@ Uso
 Parâmetros: lista (ponteiro)
 Retorno: vazio
 */
-void printList(List* list) {
+void printList(List* list, int qtdTexts) {
   for (Node* p = list->first; p != nullptr; p = p->next) {
-    cout << p->word << " " << p->frequencies[0] << " " << p->frequencies[1] << endl;
+    cout << p->word << " ";
+    for (int i = 0; i < qtdTexts; i++) {
+      cout << p->frequencies[i] << " ";
+    }
+    cout << endl;
   }
 }
 // Fim da implementação da estrutura de dados
@@ -144,7 +152,7 @@ int main(int argc, char* argv[]){
                       if (element) {
                           element->frequencies[numberText]++;
                       } else {
-                          addElement(list, toLowerCase(*token_it), numberText);
+                          addElement(list, toLowerCase(*token_it), numberText, argc - 1);
                       }
                   }    
             } 
@@ -155,7 +163,8 @@ int main(int argc, char* argv[]){
         }
     }
 
-    printList(list);
+    printList(list, argc - 1);
+
 
     return 0;
 }
