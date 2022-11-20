@@ -38,23 +38,21 @@ Parâmetros: Lista (ponteiro) e palavra
 Retorno: vazio
 */
 void addElement(List* list, string word, int numberText, int qtdTexts) {
-  Node* newElement = new Node;
+    Node* newElement = new Node;
+    
+    newElement->next = newElement->previous = nullptr;
+    newElement->word = word;
+    newElement->frequencies = new int[qtdTexts];
+      
+    for (int i = 0; i < qtdTexts; i++) {
+        newElement->frequencies[i] = 0;
+    }
 
-  newElement->next = newElement->previous = nullptr;
-  newElement->word = word;
-  newElement->frequencies = new int[qtdTexts];
-  
-  for (int i = 0; i < qtdTexts; i++) {
-    newElement->frequencies[i] = 0;
-  }
+    newElement->frequencies[numberText] = 1;
 
-  newElement->frequencies[numberText] = 1;
-
-  if (list->first == nullptr) {
-    list->first = newElement;
-  } else {
     Node* prev = nullptr;
     Node* current;
+    
     for (
       current = list->first; 
       current != nullptr && current->word.compare(word) < 0; 
@@ -62,20 +60,19 @@ void addElement(List* list, string word, int numberText, int qtdTexts) {
       ) {
       prev = current;
     }
-
+    
     newElement->previous = prev;
     newElement->next = current;
-
+    
     if (current != nullptr) {
       current->previous = newElement;
     }
-
+    
     if (prev != nullptr) {
       prev->next = newElement;
     } else {
       list->first = newElement;
     }
-  }
 }
 
 /* 
