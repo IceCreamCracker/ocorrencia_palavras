@@ -105,7 +105,8 @@ void printList(List* list, int qtdTexts) {
   for (Node* p = list->first; p != nullptr; p = p->next) {
     cout << p->word << " ";
     for (int i = 0; i < qtdTexts; i++) {
-      cout << p->frequencies[i] << " ";
+      cout << p->frequencies[i];
+      if(i != qtdTexts - 1) cout << " ";
     }
     cout << endl;
   }
@@ -155,7 +156,7 @@ int main(int argc, char* argv[]){
             } 
             myFile.close();
         } else {
-            cout << "Entrada inválida!";
+            cout << "Entrada inválida!" << endl;
             return -1;
         }
     }
